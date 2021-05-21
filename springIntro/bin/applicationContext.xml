@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+		<context:property-placeholder location = "classpath:values.properties"/>
+<!-- 	.properties dosyasından injection yapma
+		Projedeki (classpath'deki) values.properties dosyasını okuyor
+	 	Sabit değerleri kendimizi tekrarlamadan 
+		tek bir yerde merkezi olarak kontrol edeiblmek için
+		context'te dahil ettik
+-->
+
+		<bean id = "database" class="springIntro.CustomerDal">
+<!-- 	database isimli bean talebinde bulunursak MySqlCustomerDal'ı newler ve newlenmiş datayı bize verir -->
+
+<!--	<property name="connectionString" value= "Oracle string"></property> -->
+<!--  	CustomerDal'da setter metodunun değerini verdik -->
+		
+		<property name="connectionString" value= "${database.connectionString}"></property>
+<!-- 	values.properties'deki değerleri verdik
+		yani elle değer yazmadan 'git, oradaki değeri oku' dedik
+		${} içine değerini okutmak istediğimiz özellik yazılır 
+-->
+		
+		
+	</bean>
+
+	<bean id = "service" class="springIntro.CustomerManager">
+	
+<!-- 		<constructor-arg ref="database"/> -->
+<!--  		CustomerManager constructor'ında parametre istediği için ekledik -->
+			
+			<property name="iCustomerDal" ref= "database"></property>
+<!--  		CustomerManager'de setter metodu olduğu için ekledik -->
+			
+			
+			
+	</bean>
+
+</beans>
+
+
+
+
+
